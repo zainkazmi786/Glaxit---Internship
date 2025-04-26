@@ -2,7 +2,7 @@ import React from 'react';
 
 export const NewsletterSection = () => {
     return (
-      <section className="py-10 bg-white border-t border-gray-200 rounded-3xl">
+      <section className="p-10 bg-white border-t border-gray-200 rounded-3xl">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div>
