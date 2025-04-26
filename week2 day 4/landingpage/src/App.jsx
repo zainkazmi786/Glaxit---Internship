@@ -1,20 +1,19 @@
 import React from 'react';
-import Header from './components/header';
-import Hero from './components/hero';
-import Features from './components/features';
-import About from './components/about';
-import Services from './components/services';
-import Footer from './components/footer';
+import { Routes, Route } from 'react-router-dom';
+
+// Your current website
+import HomePage from './pages/HomePage';
+
+// Your second new website
+import SecondWebsite from './pages/SecondWebsite';
 
 function App() {
   return (
     <div className="font-sans">
-      <Header />
-      <Hero />
-      <Features />
-      <About />
-      <Services />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/second" element={<SecondWebsite />} />
+      </Routes>
     </div>
   );
 }
