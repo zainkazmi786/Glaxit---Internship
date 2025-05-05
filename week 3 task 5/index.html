@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Words Using Map</title>
+    <style>
+        * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.inp {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+}
+
+    .inp:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #357ab7;
+    }
+
+    #output {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        color: #333;
+        word-wrap: break-word;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="reverseForm">
+            <input class="inp" type="text" id="statementInput" placeholder="Enter your statement">
+            <button type="submit" class="btn">Reverse It</button>
+        </form>
+        <p id="output"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
