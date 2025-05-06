@@ -104,12 +104,12 @@ function logout() {
 
 function checkAuth() {
     const token = localStorage.getItem('token');
-    const isAuthPage = window.location.pathname.includes('login') || window.location.pathname.includes('register');
+    const isAuthPage = window.location.pathname.includes('login') || window.location.pathname.includes('register') ||  window.location.pathname.includes('index')
 
     if (token && isAuthPage) {
         window.location.href = 'dashboard.html';
     } else if (!token && !isAuthPage) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 }
 
