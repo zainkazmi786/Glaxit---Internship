@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Hub - Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Idea Hub</h1>
+    </header>
+    
+    <div class="auth-form">
+      <h2>Welcome Back</h2>
+      
+      <div class="social-login">
+        <button class="social-btn">
+          <i class="fab fa-google" style="color: #DB4437;"></i> Google
+        </button>
+        <button class="social-btn">
+          <i class="fab fa-github" style="color: #333;"></i> GitHub
+        </button>
+      </div>
+      
+      <div class="form-divider">
+        <span>or login with email</span>
+      </div>
+      
+      <div id="login_message" class="message error" style="display: none;">
+        Invalid credentials. Please try again.
+      </div>
+      
+      <div class="form-group">
+        <label for="login_email">Email</label>
+        <input type="email" id="login_email" placeholder="your@email.com">
+      </div>
+      
+      <div class="form-group">
+        <label for="login_password">Password</label>
+        <input type="password" id="login_password" placeholder="••••••••">
+      </div>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="remember_me">
+        <label for="remember_me">Remember me</label>
+      </div>
+      
+      <button onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
+      
+      <div class="auth-links">
+        <p>Don't have an account? <a href="register.html">Register</a></p>
+        <p><a href="#">Forgot password?</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script/auth.js"></script>
+</body>
+</html>

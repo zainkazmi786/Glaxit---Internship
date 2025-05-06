@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Hub - Register</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Idea Hub</h1>
+    </header>
+    
+    <div class="auth-form">
+      <h2>Create Account</h2>
+      
+      <div class="social-login">
+        <button class="social-btn">
+          <i class="fab fa-google" style="color: #DB4437;"></i> Google
+        </button>
+        <button class="social-btn">
+          <i class="fab fa-github" style="color: #333;"></i> GitHub
+        </button>
+      </div>
+      
+      <div class="form-divider">
+        <span>or register with email</span>
+      </div>
+      
+      <div id="register_message" class="message error" style="display: none;">
+        Please fill all required fields.
+      </div>
+      
+      <div class="form-group">
+        <label for="reg_name">Full Name</label>
+        <input type="text" id="reg_name" placeholder="John Doe">
+      </div>
+      
+      <div class="form-group">
+        <label for="reg_email">Email</label>
+        <input type="email" id="reg_email" placeholder="your@email.com">
+      </div>
+      
+      <div class="form-group">
+        <label for="reg_password">Password</label>
+        <input type="password" id="reg_password" placeholder="••••••••">
+      </div>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="agree_terms">
+        <label for="agree_terms">I agree to the <a href="#">Terms & Conditions</a></label>
+      </div>
+      
+      <button onclick="register()"><i class="fas fa-user-plus"></i> Register</button>
+      
+      <div class="auth-links">
+        <p>Already have an account? <a href="login.html">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script/auth.js"></script>
+</body>
+</html>

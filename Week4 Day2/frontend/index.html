@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Hub - Innovative Ideas Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Additional styles specific to landing page */
+    .hero {
+      padding: 4rem 0;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #666;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .hero-buttons button {
+      width: auto;
+      padding: 12px 30px;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .testimonials {
+      margin-bottom: 4rem;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      font-size: 5rem;
+      color: rgba(0, 0, 0, 0.05);
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-family: serif;
+    }
+    
+    .testimonial-content {
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      background: var(--gradient-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .testimonial-name {
+      font-weight: 600;
+    }
+    
+    .testimonial-title {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .cta {
+      background: white;
+      padding: 3rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 4rem;
+    }
+    
+    .cta h2 {
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta p {
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: #777;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-links a {
+      color: #555;
+      text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary-blue);
+    }
+    
+    @media (max-width: 767px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+      
+      .testimonial-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Idea Hub</h1>
+      <nav>
+        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#features"><i class="fas fa-lightbulb"></i> Features</a>
+        <a href="#testimonials"><i class="fas fa-star"></i> Testimonials</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+      </nav>
+    </header>
+    
+    <section class="hero">
+      <h1>Capture and Organize Your Brilliant Ideas</h1>
+      <p>Idea Hub is a modern platform for innovative thinkers to collect, organize, and develop their creative concepts. Never lose a brilliant idea again!</p>
+      
+      <div class="hero-buttons">
+        <button onclick="window.location.href='register.html'"><i class="fas fa-rocket"></i> Get Started Free</button>
+        <button onclick="window.location.href='login.html'" style="background: white; color: var(--primary-blue); border: 1px solid var(--primary-blue);">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+      </div>
+    </section>
+    
+    <section id="features" class="features">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <h3>Capture Ideas</h3>
+        <p>Quickly capture your ideas before they slip away. Add titles, categories, and detailed descriptions.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-layer-group"></i>
+        </div>
+        <h3>Organize & Categorize</h3>
+        <p>Keep your ideas organized with custom categories and tags for easy reference later.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-share-alt"></i>
+        </div>
+        <h3>Collaborate & Share</h3>
+        <p>Share your ideas with team members or friends to get feedback and collaborate.</p>
+      </div>
+    </section>
+    
+    <section id="testimonials" class="testimonials">
+      <h2>What Our Users Say</h2>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          "Idea Hub has completely transformed how I manage my creative projects. I used to lose track of my ideas, but now I have them all in one place. The interface is intuitive and the organization features are fantastic!"
+        </div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JD</div>
+          <div>
+            <div class="testimonial-name">Jane Doe</div>
+            <div class="testimonial-title">Creative Director</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          "As an entrepreneur, I'm constantly coming up with new business ideas. Idea Hub helps me capture, refine, and track the progress of each concept. It's become an essential tool in my creative process."
+        </div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MS</div>
+          <div>
+            <div class="testimonial-name">Michael Smith</div>
+            <div class="testimonial-title">Entrepreneur</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta">
+      <h2>Ready to Organize Your Ideas?</h2>
+      <p>Join thousands of creative thinkers who use Idea Hub to capture and develop their innovative concepts. Get started for free today!</p>
+      <button onclick="window.location.href='register.html'"><i class="fas fa-rocket"></i> Create Free Account</button>
+    </section>
+    
+    <footer>
+      <div class="footer-links">
+        <a href="#">About Us</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Support</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+      <p>&copy; 2025 Idea Hub. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="script/auth.js"></script>
+</body>
+</html>

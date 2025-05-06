@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Hub - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Idea Hub</h1>
+      <nav>
+        <a href="dashboard.html" class="active"><i class="fas fa-lightbulb"></i> Dashboard</a>
+        <a href="#"><i class="fas fa-star"></i> Favorites</a>
+        <a href="#"><i class="fas fa-user"></i> Profile</a>
+        <a href="login.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </header>
+    
+    <div class="auth-form">
+      <h2>Add New Idea</h2>
+      <div class="form-group">
+        <label for="idea_title">Title</label>
+        <input type="text" id="idea_title" placeholder="What's your idea called?">
+      </div>
+      
+      <div class="form-group">
+        <label for="idea_category">Category</label>
+        <input type="text" id="idea_category" placeholder="e.g. Technology, Education, Health">
+      </div>
+      
+      <div class="form-group">
+        <label for="idea_description">Description</label>
+        <textarea id="idea_description" placeholder="Describe your brilliant idea..."></textarea>
+      </div>
+      
+      <button onclick="addIdea()"><i class="fas fa-plus"></i> Add Idea</button>
+    </div>
+
+    <h2>Your Ideas</h2>
+    <button onclick="getIdeas()" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+    
+    <div id="message" class="message success" style="display: none;">
+      Idea added successfully!
+    </div>
+    
+    <div class="ideas-grid" id="ideas_list">
+      <!-- Sample idea cards to show styling (these will be replaced by JS) -->
+      <div class="idea-card">
+        <div class="idea-header">
+          <div class="idea-title">Smart Home Automation</div>
+          <div class="idea-category">Technology</div>
+        </div>
+        <div class="idea-description">
+          A system that learns from user behavior to automatically adjust home settings like temperature, lighting, and security.
+        </div>
+        <div class="idea-actions">
+          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+      
+      <div class="idea-card">
+        <div class="idea-header">
+          <div class="idea-title">Eco-Friendly Packaging</div>
+          <div class="idea-category">Environment</div>
+        </div>
+        <div class="idea-description">
+          Biodegradable packaging made from plant waste that dissolves completely in water within 24 hours.
+        </div>
+        <div class="idea-actions">
+          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script/ideas.js"></script>
+  <script src="script/auth.js"></script>
+</body>
+</html>

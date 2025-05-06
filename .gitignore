@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask instance folder and config files
+instance/
+.env
+*.env
+
+# Flask-related
+*.log
+*.pid
+*.db
+*.sqlite3
+
+# VS Code and other IDE settings
+.vscode/
+.idea/
+
+# Node modules (if frontend uses npm)
+node_modules/
+build/
+dist/
+
+# Frontend build files
+*.map
+.DS_Store
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Pytest and test cache
+.pytest_cache/
+.cache/
+
+# MongoDB dump files
+dump/
