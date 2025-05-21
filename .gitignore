@@ -15,7 +15,7 @@ instance/
 *.sqlite3
 
 *.myenv
-
+myenv
 # VS Code and other IDE settings
 .vscode/
 .idea/
