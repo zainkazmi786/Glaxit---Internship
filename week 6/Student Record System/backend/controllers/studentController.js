@@ -37,16 +37,13 @@ const addStudent = async (req, res) => {
 const updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
-
     const updated = await Student.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true
     });
-
     if (!updated) {
       return res.status(404).json({ error: 'Student not found' });
-    }
-
+    } 
     res.status(200).json(updated);
   } catch (err) {
     res.status(400).json({ error: 'Failed to update student', details: err.message });
@@ -57,7 +54,6 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;
-
     const deleted = await Student.findByIdAndDelete(id);
 
     if (!deleted) {
