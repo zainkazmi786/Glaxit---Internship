@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Phone, Mail, Plus, Trash2, Users, Search } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://glaxit-internship-production.up.railway.app/api';
 
 // Contact Card Component
 const ContactCard = ({ contact, onDelete }) => {
@@ -175,7 +175,7 @@ const App = () => {
         throw new Error('Failed to fetch contacts');
       }
     } catch (err) {
-      setError('Failed to load contacts. Make sure your backend is running on localhost:5000');
+      setError('Failed to load contacts.');
       console.error('Error fetching contacts:', err);
     } finally {
       setLoading(false);
