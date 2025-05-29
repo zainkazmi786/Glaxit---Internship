@@ -49,27 +49,39 @@ const ContactCard = ({ contact, onDelete }) => {
 };
 
 // Add Contact Form Component
+
 const AddContactForm = ({ onAdd, isAdding }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: ''
-  });
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
+  const [errors, setErrors] = useState({});
   const [isVisible, setIsVisible] = useState(false);
 
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    else if (formData.name.trim().length < 3) newErrors.name = 'Name must be at least 3 characters';
+
+    if (!formData.phone.trim()) newErrors.phone = 'Phone is required';
+    else if (!/^\+?\d{10,15}$/.test(formData.phone.trim())) newErrors.phone = 'Enter a valid phone number';
+
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) newErrors.email = 'Invalid email format';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
-    if (formData.name && formData.phone && formData.email) {
+    if (validate()) {
       await onAdd(formData);
       setFormData({ name: '', phone: '', email: '' });
+      setErrors({});
       setIsVisible(false);
     }
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: '' });
   };
 
   return (
@@ -85,6 +97,7 @@ const AddContactForm = ({ onAdd, isAdding }) => {
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isVisible ? 'max-h-96 mt-6' : 'max-h-0'}`}>
         <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Name */}
             <div>
               <label className="block text-white/80 text-sm font-medium mb-2">Name</label>
               <input
@@ -93,10 +106,12 @@ const AddContactForm = ({ onAdd, isAdding }) => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter name"
-                required
                 className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
               />
+              {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
             </div>
+
+            {/* Phone */}
             <div>
               <label className="block text-white/80 text-sm font-medium mb-2">Phone</label>
               <input
@@ -105,10 +120,12 @@ const AddContactForm = ({ onAdd, isAdding }) => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Enter phone"
-                required
                 className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
               />
+              {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
             </div>
+
+            {/* Email */}
             <div>
               <label className="block text-white/80 text-sm font-medium mb-2">Email</label>
               <input
@@ -117,11 +134,12 @@ const AddContactForm = ({ onAdd, isAdding }) => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter email"
-                required
                 className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
               />
+              {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
             </div>
           </div>
+
           <button
             type="button"
             onClick={handleSubmit}
@@ -135,6 +153,8 @@ const AddContactForm = ({ onAdd, isAdding }) => {
     </div>
   );
 };
+
+
 
 // Search Bar Component
 const SearchBar = ({ searchTerm, onSearchChange }) => {
