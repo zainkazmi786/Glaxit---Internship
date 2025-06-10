@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Login from './components/Auth/Login';
 import Dashboard from './components/Dashboard/Dashboard';
+import Login from './components/Auth/Login';
 import UsersManagement from './components/Users/UsersManagement';
 import RolesManagement from './components/Roles/RolesManagement';
 import PermissionsManagement from './components/Permissions/PermissionsManagement';
