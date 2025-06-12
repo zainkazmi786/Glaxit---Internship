@@ -22,6 +22,7 @@ const PostsManagement = () => {
 
   useEffect(() => {
     fetchPosts();
+    // console.log(hasPermission('edit_post'), posts)
   }, []);
 
   const fetchPosts = async () => {
@@ -220,7 +221,7 @@ const PostsManagement = () => {
               </div>
               <div className="flex flex-col gap-2 ml-4">
                 {(hasPermission('edit_all_posts') || 
-                (hasPermission('edit_post') && post.author._id === user.user._id)) && (
+                (hasPermission('edit_post') && post.author?._id === user?.user?._id))&& (
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -232,7 +233,7 @@ const PostsManagement = () => {
 
               {/* Delete Button */}
               {(hasPermission('delete_all_posts') || 
-                (hasPermission('delete_post') && post.author._id === user.user._id)) && (
+                (hasPermission('delete_post') && post.author?._id === user?.user?._id)) && (
                 <Button
                   onClick={() => deletePost(post._id)}
                   variant="destructive"

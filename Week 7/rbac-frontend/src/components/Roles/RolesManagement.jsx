@@ -16,7 +16,7 @@ const RolesManagement = () => {
   const [loading, setLoading] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const { isAdmin } = useAuth();
+  const { isAdmin, hasPermission } = useAuth();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
@@ -98,7 +98,7 @@ const RolesManagement = () => {
   };
 
   const createRole = async () => {
-    if (!isAdmin()) {
+    if (!hasPermission('manage_roles')) {
       showErrorAlert('You do not have permission to create roles');
       return;
     }
@@ -126,7 +126,7 @@ const RolesManagement = () => {
   };
 
   const deleteRole = async (roleId, roleName) => {
-    if (!isAdmin()) {
+    if (!hasPermission('manage_roles')) {
       showErrorAlert('You do not have permission to delete roles');
       return;
     }
@@ -199,7 +199,7 @@ const RolesManagement = () => {
         )}
 
         {/* Create New Role Form */}
-        {isAdmin() && (
+        {hasPermission('manage_roles') && (
           <Card className="mb-8 bg-white/80 backdrop-blur-sm border-0 shadow-xl">
             <CardHeader className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-t-lg">
               <CardTitle className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -385,7 +385,7 @@ const RolesManagement = () => {
                       </div>
                     </div>
                     
-                    {isAdmin() && (
+                    {hasPermission('manage_roles') && (
                       <div className="ml-6">
                         <Button
                           onClick={() => deleteRole(role._id, role.name)}
@@ -405,7 +405,7 @@ const RolesManagement = () => {
         </div>
 
         {/* Footer Info */}
-        {!isAdmin() && (
+        {!hasPermission('manage_roles') && (
           <Card className="mt-8 bg-yellow-50/80 backdrop-blur-sm border-yellow-200 shadow-lg">
             <CardContent className="p-6">
               <Alert className="border-yellow-200 bg-yellow-50">

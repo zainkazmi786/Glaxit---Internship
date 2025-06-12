@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, isAdmin , hasPermission } = useAuth();
   const location = useLocation();
 
   // Helper to highlight active link
@@ -34,29 +34,47 @@ const Navigation = () => {
           >
             Posts
           </Link>
-          
-              <Link
-                to="/roles"
-                className={`text-lg font-semibold transition-colors duration-200 ${
-                  isActive('/roles') 
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' 
-                    : 'text-blue-600 hover:text-blue-800'
-                }`}
-              >
-                Roles
-              </Link>
-              <Link
-                to="/permissions"
-                className={`text-lg font-semibold transition-colors duration-200 ${
-                  isActive('/permissions') 
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' 
-                    : 'text-blue-600 hover:text-blue-800'
-                }`}
-              >
-                Permissions
-              </Link>
 
-            {isAdmin() && (
+
+        {hasPermission("manage_roles") && (
+          <Link
+            to="/roles"
+            className={`text-lg font-semibold transition-colors duration-200 ${
+              isActive('/roles') 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' 
+                : 'text-blue-600 hover:text-blue-800'
+            }`}
+          >
+            Roles
+          </Link>
+        )}
+
+        {hasPermission("manage_permissions") && (
+          <Link
+            to="/permissions"
+            className={`text-lg font-semibold transition-colors duration-200 ${
+              isActive('/permissions') 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' 
+                : 'text-blue-600 hover:text-blue-800'
+            }`}
+          >
+            Permissions
+          </Link>
+        )}
+         {hasPermission("manage_users") && (
+          <Link
+            to="/users"
+            className={`text-lg font-semibold transition-colors duration-200 ${
+              isActive('/users') 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' 
+                : 'text-blue-600 hover:text-blue-800'
+            }`}
+          >
+            Users
+          </Link>
+        )}
+
+            {/* {isAdmin() && (
             <>
               <Link
                 to="/users"
@@ -69,7 +87,7 @@ const Navigation = () => {
                 Users
               </Link>
             </>
-          )}
+          )} */}
         </div>
 
         <div className="flex items-center space-x-4">

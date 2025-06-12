@@ -13,7 +13,7 @@ const UsersManagement = () => {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isAdmin } = useAuth();
+  const { isAdmin , hasPermission} = useAuth();
   const [dialogMode, setDialogMode] = useState('assign');
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,7 +33,7 @@ const UsersManagement = () => {
   }, [error, success]);
 
   useEffect(() => {
-    if (isAdmin()) {
+    if (hasPermission("manage_users")) {
       fetchUsers();
       fetchRoles();
     }
@@ -163,7 +163,7 @@ const UsersManagement = () => {
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (!isAdmin()) {
+  if (!hasPermission("manage_users")) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
         <div className="container mx-auto max-w-2xl">

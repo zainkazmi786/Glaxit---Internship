@@ -13,7 +13,7 @@ const PermissionsManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null); // Add success state
-  const { isAdmin } = useAuth();
+  const { isAdmin , hasPermission } = useAuth();
 
   useEffect(() => {
     fetchPermissions();
@@ -45,7 +45,7 @@ const PermissionsManagement = () => {
   };
 
   const createPermission = async () => {
-    if (!isAdmin()) return;
+    if (!hasPermission('manage_permissions')) return;
 
     const errors = validatePermissionForm(newPermission);
     if (Object.keys(errors).length > 0) {
@@ -69,7 +69,7 @@ const PermissionsManagement = () => {
   };
 
   const deletePermission = async (permissionId) => {
-    if (!isAdmin()) return;
+    if (!hasPermission('manage_permissions')) return;
     try {
       await apiCall(`/permissions/${permissionId}`, { method: 'DELETE' });
       fetchPermissions();
@@ -93,7 +93,7 @@ const PermissionsManagement = () => {
         </Alert>
       )}
 
-      {isAdmin() && (
+      {hasPermission('manage_permissions') && (
         <Card className="mb-6 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle  className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Create New Permission</CardTitle>
@@ -132,7 +132,7 @@ const PermissionsManagement = () => {
                   <h3 className="font-semibold">{permission.name}</h3>
                   <p className="text-gray-600">{permission.description}</p>
                 </div>
-                {isAdmin() && (
+                {hasPermission('manage_permissions') && (
                   <Button
                     onClick={() => deletePermission(permission._id)}
                     variant="destructive"
