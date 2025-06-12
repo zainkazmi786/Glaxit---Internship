@@ -174,14 +174,20 @@ const deletePost = async (req, res) => {
       });
     }
 
-    // Check if user owns the post or has admin permissions
-    const userPermissions = req.user.getPermissions();
-    if (post.author._id.toString() !== req.user._id.toString() && !userPermissions.includes('delete_all_posts')) {
-      return res.status(403).json({
-        success: false,
-        message: 'You can only delete your own posts'
-      });
-    }
+    // Check if user owns the post or has admin permissions 
+  const userPermissions = req.user.getPermissions();
+
+  if (
+    !post.author || 
+    (post.author._id.toString() !== req.user._id.toString() && 
+    !userPermissions.includes('delete_all_posts'))
+  ) {
+    return res.status(403).json({
+      success: false,
+      message: 'You can only delete your own posts'
+    });
+  }
+
 
     await Post.findByIdAndDelete(req.params.id);
 
