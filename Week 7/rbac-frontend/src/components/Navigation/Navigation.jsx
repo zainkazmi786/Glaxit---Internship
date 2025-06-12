@@ -34,8 +34,7 @@ const Navigation = () => {
           >
             Posts
           </Link>
-          {isAdmin() && (
-            <>
+          
               <Link
                 to="/roles"
                 className={`text-lg font-semibold transition-colors duration-200 ${
@@ -56,6 +55,9 @@ const Navigation = () => {
               >
                 Permissions
               </Link>
+
+            {isAdmin() && (
+            <>
               <Link
                 to="/users"
                 className={`text-lg font-semibold transition-colors duration-200 ${
