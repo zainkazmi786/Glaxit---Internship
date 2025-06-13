@@ -19,10 +19,10 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // Get all roles (accessible to authenticated users)
-router.get('/', getAllRoles);
+router.get('/', checkPermission('manage_roles'),getAllRoles);
 
 // Get role by ID (accessible to authenticated users)
-router.get('/:id', getRoleById);
+router.get('/:id',checkPermission('manage_roles'), getRoleById);
 
 // Admin-only routes
 router.post('/', checkPermission('manage_roles'), createRole);

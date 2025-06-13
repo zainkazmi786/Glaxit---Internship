@@ -17,10 +17,10 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // Get all permissions (accessible to authenticated users)
-router.get('/', getAllPermissions);
+router.get('/', checkPermission('manage_permissions'), getAllPermissions);
 
 // Get permission by ID (accessible to authenticated users)
-router.get('/:id', getPermissionById);
+router.get('/:id', checkPermission('manage_permissions'), getPermissionById);
 
 // Admin-only routes
 router.post('/', checkPermission('manage_permissions'), createPermission);
