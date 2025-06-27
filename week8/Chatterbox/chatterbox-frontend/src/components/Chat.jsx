@@ -43,7 +43,7 @@ const Chat = () => {
           <div className={`
             fixed md:relative top-16 md:top-0 left-0 z-40 h-full
             transition-transform duration-300 ease-in-out
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-[120] mt-[25px] md:translate-x-0'}
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-[480px] mt-[25px] md:translate-x-0'}
             w-80 md:w-auto
           `}>
             <RoomList
