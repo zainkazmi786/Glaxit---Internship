@@ -200,7 +200,7 @@ const RoomList = ({ onRoomSelect, currentRoom }) => {
   });
 
 return (
-    <div className="w-[440px]  bg-gradient-to-b from-white to-slate-300 dark:from-slate-800/90 dark:to-slate-900/90 backdrop-blur-xl border-r border-slate-800/30 dark:border-slate-700/30 h-full flex flex-col shadow-2xl">
+    <div className="w-[420px]  bg-gradient-to-b from-white to-slate-300 dark:from-slate-800/90 dark:to-slate-900/90 backdrop-blur-xl border-r border-slate-800/30 dark:border-slate-700/30 h-full flex flex-col shadow-2xl">
       {/* Header */}
       <div className="p-6 border-b border-slate-200/40 dark:border-slate-700/40 bg-gradient-to-r from-white/95 to-slate-50/95 dark:from-slate-800/95 dark:to-slate-900/95">
         <div className="flex gap-2 mb-4">

@@ -219,7 +219,7 @@ return (
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-gradient-to-b mt-[25px] from-white/50 to-slate-50/50 dark:from-slate-800/50 dark:to-slate-900/50 backdrop-blur-sm">
+    <div className="flex-1 flex flex-col bg-gradient-to-b mt-[230x] from-white/50 to-slate-50/50 dark:from-slate-800/50 dark:to-slate-900/50 backdrop-blur-sm">
       <div className="p-6 bg-gradient-to-r from-white/80 to-slate-50/80 dark:from-slate-800/80 dark:to-slate-900/80 backdrop-blur-sm border-b border-slate-200/50 dark:border-slate-700/50 shadow-sm">
         <div className="flex items-center gap-3 mb-2">
           <div className="flex items-center gap-3">
