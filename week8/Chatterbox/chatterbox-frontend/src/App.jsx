@@ -55,10 +55,10 @@ const App = () => {
         <Router>
           <div className="App min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 ">
             {/* Dark mode toggle button */}
-            <div className="fixed top-4 right-2 z-100">
+            <div className="fixed top-20 right-2 z-100">
               <button
                 onClick={toggleDarkMode}
-                className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow hover:ring-2 ring-blue-500 transition"
+                className="px-3 py-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow hover:ring-2 ring-blue-500 transition"
                 aria-label="Toggle Dark Mode"
               >
                 {isDarkMode ? '🌙' : '☀️'}
