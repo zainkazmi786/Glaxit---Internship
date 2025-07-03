@@ -261,7 +261,7 @@ return (
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
         {messages.map((message) => (
           <div
             key={message.id || message._id}

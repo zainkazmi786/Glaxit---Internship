@@ -53,7 +53,7 @@ const App = () => {
     <AuthProvider>
       <SocketProvider>
         <Router>
-          <div className="App min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 ">
+          <div className="App min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden">
             {/* Dark mode toggle button */}
             <div className="fixed top-20 right-2 z-100">
               <button
