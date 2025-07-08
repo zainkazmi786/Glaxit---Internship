@@ -1,13 +1,15 @@
 // src/components/RoomList.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSocket } from '../context/SocketContext';
 import RoomManageDialog from './RoomManageDialog';
+import Spinner from './Spinner';
 
 import { useAuth } from '../context/AuthContext';
 import api from '../config/api';
 
 const RoomList = ({ onRoomSelect, currentRoom }) => {
   const [rooms, setRooms] = useState([]);
+  const [isloading, setisloading] = useState(true);
   const [users, setUsers] = useState([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showJoinForm, setShowJoinForm] = useState(false);
@@ -21,6 +23,18 @@ const RoomList = ({ onRoomSelect, currentRoom }) => {
   const { socket, onlineUsers } = useSocket();
   const [showRoomDialog, setShowRoomDialog] = useState(false);
   const [selectedRoomForDialog, setSelectedRoomForDialog] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (roomId, e) => {
+    e.stopPropagation();
+    console.log("opened")
+    setOpenDropdown(openDropdown === roomId ? null : roomId);
+  };
+
+  const closeDropdown = () => {
+    console.log("closed")
+    setOpenDropdown(null);
+  };
 
   const { user } = useAuth();
 
@@ -42,27 +56,41 @@ const RoomList = ({ onRoomSelect, currentRoom }) => {
   };
 
 
-  const fetchRooms = async () => {
-    try {
-      const [publicRooms, myRooms] = await Promise.all([
-        api.get('/api/rooms/public'),
-        api.get('/api/rooms/my-rooms')
-      ]);
+const fetchRooms = async () => {
+  try {
+    const [publicRooms, myRooms] = await Promise.all([
+      api.get('/api/rooms/public'),
+      api.get('/api/rooms/my-rooms')
+    ]);
 
-      // Filter out DM rooms from regular rooms
-      const regularRooms = myRooms.data.filter(room => !room.isDM);
-      publicRooms.data.forEach(room => {
-        if (!room.isDM && !regularRooms.find(r => r._id === room._id)) {
-          regularRooms.push(room);
-        }
-      });
+    // Filter out DM rooms from myRooms
+    const regularRooms = myRooms.data.filter(room => !room.isDM);
 
-      setRooms(regularRooms);
-      console.log('Fetched rooms:', regularRooms);
-    } catch (error) {
-      console.error('Failed to fetch rooms:', error);
+    // Add public rooms that are not DM and not already in regularRooms
+    publicRooms.data.forEach(room => {
+      if (!room.isDM && !regularRooms.find(r => r._id === room._id)) {
+        regularRooms.push(room);
+      }
+    });
+
+    // Find the AI room (room with isAi === true)
+    const aiRoomIndex = regularRooms.findIndex(room => room.isAi === true);
+
+    if (aiRoomIndex > 0) {
+      // Remove the AI room from its current position
+      const [aiRoom] = regularRooms.splice(aiRoomIndex, 1);
+      // Insert the AI room at the beginning of the array
+      regularRooms.unshift(aiRoom);
     }
-  };
+
+    setRooms(regularRooms);
+    setisloading(false)
+    console.log('Fetched rooms:', regularRooms);
+  } catch (error) {
+    console.error('Failed to fetch rooms:', error);
+  }
+};
+
 
   const fetchDMRooms = async () => {
     try {
@@ -199,9 +227,20 @@ const RoomList = ({ onRoomSelect, currentRoom }) => {
     ...room
   });
 
+if (isloading) {
+  return (
+    <div className="md:w-[420px]  bg-gradient-to-b from-white to-slate-300 dark:from-slate-800/90 dark:to-slate-900/90 backdrop-blur-xl border-r border-slate-800/30 dark:border-slate-700/30 h-full flex flex-col shadow-2xl">
+      <Spinner />
+    </div>
+  );
+}
+
 return (
-    <div className="w-[420px]  bg-gradient-to-b from-white to-slate-300 dark:from-slate-800/90 dark:to-slate-900/90 backdrop-blur-xl border-r border-slate-800/30 dark:border-slate-700/30 h-full flex flex-col shadow-2xl">
+
+   
+    <div className="md:w-[420px]  bg-gradient-to-b from-white to-slate-300 dark:from-slate-800/90 dark:to-slate-900/90 backdrop-blur-xl border-r border-slate-800/30 dark:border-slate-700/30 h-full flex flex-col shadow-2xl">
       {/* Header */}
+
       <div className="p-6 border-b border-slate-200/40 dark:border-slate-700/40 bg-gradient-to-r from-white/95 to-slate-50/95 dark:from-slate-800/95 dark:to-slate-900/95">
         <div className="flex gap-2 mb-4">
           <button
@@ -437,104 +476,147 @@ return (
       )}
 
       {/* Room/DM List */}
-      <div className="flex-1  overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
+      <div className="flex-1  overflow-y-auto custom-scrollbar">
         {activeTab === 'rooms' ? (
-          /* Regular Rooms */
-          <div className="p-2 px-6 space-y-2">
-            {rooms.map(room => (
-              <div
-                key={room._id}
-                className={`group relative p-4  rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg border border-transparent ${currentRoom?.id === room._id
-                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200/50 dark:border-blue-700/50 shadow-lg shadow-blue-500/10'
-                  : 'hover:bg-white/70 dark:hover:bg-slate-700/70 hover:border-slate-200/30 dark:hover:border-slate-600/30'
-                  }`}
-              >
-                {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-indigo-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
-                <div
-                  onClick={() => {
-                    console.log(room.members, user);
-                    if (room.members.some(member => member._id.toString() === user.id)) {
-                      onRoomSelect(formatRoomForSelection(room));
-                    }
-                  }}
-                  className="relative z-10"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-semibold text-sm shadow-lg">
-                        {room.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <span className="font-semibold text-sm text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors duration-200">{room.name}</span>
-                        <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-                          </svg>
-                          {room.members?.length || 0} members
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {/* Info button */}
-                      <button
-                        onClick={(e) => handleRoomInfo(room, e)}
-                        className="text-xs bg-slate-100/80 dark:bg-slate-600/80 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-200/80 dark:hover:bg-slate-500/80 transition-all duration-200 hover:scale-110 shadow-sm"
-                        title="Room Info"
-                      >
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      {room.isPrivate && (
-                        <span className="text-xs bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded-lg font-medium shadow-sm">
-                          Private
-                        </span>
-                      )}
-                      {!room.isPrivate &&
-                        !room.members.some(member => member._id.toString() === user.id) && (
-                          <button
-                            onClick={async () => {
-                              const confirmed = window.confirm('Do you want to join this public room?');
-                              if (confirmed) {
-                                await joinPublicRoom(room._id);
-                                await fetchRooms();
-                              }
-                            }}
-                            className="text-xs bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1.5 rounded-lg cursor-pointer hover:from-green-600 hover:to-emerald-700 transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg font-medium"
-                          >
-                            Join
-                          </button>
-                        )}
-                      {room.creator._id === user.id || room.admins?.some(admin => admin._id === user.id) ? (
-                        <button
-                          onClick={() => handleDeleteRoom(room._id)}
-                          className="text-xs bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1.5 rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 hover:scale-110 shadow-md hover:shadow-lg font-medium"
-                        >
-                          Delete
-                        </button>
-                      ) : null}
-                      {room.inviteCode && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            copyInviteCode(room);
-                          }}
-                          className="text-xs bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-300 px-3 py-1.5 rounded-lg hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800/50 dark:hover:to-indigo-800/50 transition-all duration-200 hover:scale-110 shadow-sm font-medium"
-                          title="Copy invite code"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
+    <div className="p-2 px-6 space-y-2">
+      {rooms.map(room => (
+        <div
+          key={room._id}
+          data-room-id={room._id}
+          className={`group relative p-4 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:z-30 hover:shadow-lg border-transparent ${currentRoom?.id === room._id
+            ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200/50 dark:border-blue-700/50 shadow-lg shadow-blue-500/10'
+            : 'hover:bg-white/70 dark:hover:bg-slate-700/70 hover:border-slate-200/30 dark:hover:border-slate-600/30'
+            }`}
+        >
+          <div
+            onClick={() => {
+              console.log(room.members, user);
+              if (room.members.some(member => member._id.toString() === user.id)) {
+                onRoomSelect(formatRoomForSelection(room));
+              }
+              closeDropdown();
+            }}
+            className="relative"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-semibold text-sm shadow-lg">
+                  {room.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <span className="font-semibold text-sm text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors duration-200">{room.name}</span>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                    </svg>
+                    {room.members?.length || 0} members
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="flex items-center gap-2">
+                {/* Info button - remains separate */}
+                <button
+                  onClick={(e) => handleRoomInfo(room, e)}
+                  className="text-xs bg-slate-100/80 dark:bg-slate-600/80 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-200/80 dark:hover:bg-slate-500/80 transition-all duration-200 hover:scale-110 shadow-sm"
+                  title="Room Info"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
 
-        ) : (
+                {/* Private room indicator */}
+                {room.isPrivate && (
+                  <span className="text-xs bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded-lg font-medium shadow-sm">
+                    <img src="/lock.png" className='w-4' alt="" />
+                  </span>
+                )}
+
+                {/* Options dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={(e) => toggleDropdown(room._id, e)}
+                    className="text-xs bg-slate-100/80 dark:bg-slate-600/80 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-200/80 dark:hover:bg-slate-500/80 transition-all duration-200 hover:scale-110 shadow-sm"
+                    title="Room Options"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown menu */}
+                  {openDropdown === room._id && (
+                    <>
+                    
+                      {/* Dropdown */}
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-700 rounded-lg shadow-xl border border-slate-200 dark:border-slate-600 z-50">
+                        <div className="py-2">
+                          {/* Join button for public rooms */}
+                          {!room.isPrivate && !room.members.some(member => member._id.toString() === user.id) && (
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                const confirmed = window.confirm('Do you want to join this public room?');
+                                if (confirmed) {
+                                  await joinPublicRoom(room._id);
+                                  await fetchRooms();
+                                }
+                                closeDropdown();
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-200 flex items-center gap-2"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                              Join Room
+                            </button>
+                          )}
+
+                          {/* Copy invite code */}
+                          {room.inviteCode && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                copyInviteCode(room);
+                                closeDropdown();
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200 flex items-center gap-2"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              Copy Invite Code
+                            </button>
+                          )}
+
+                          {/* Delete room for creators/admins */}
+                          {(room.creator._id === user.id || room.admins?.some(admin => admin._id === user.id)) && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteRoom(room._id);
+                                closeDropdown();
+                              }}
+                              className="w-full px-4 py-2 text-left text-sm text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                              Delete Room
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  ): (
           /* DM Rooms */
           <div className="p-2 px-6 space-y-2">
             {dmRooms.map(room => {
@@ -544,13 +626,13 @@ return (
               return (
                 <div
                   key={room._id}
-                  className={`group relative p-4 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg border border-transparent ${currentRoom?.id === room._id
+                  className={`group relative p-4 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 border border-transparent ${currentRoom?.id === room._id
                     ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200/50 dark:border-blue-700/50 shadow-lg shadow-blue-500/10'
                     : 'hover:bg-white/70 dark:hover:bg-slate-700/70 hover:border-slate-200/30 dark:hover:border-slate-600/30'
                     }`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-indigo-500/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative z-10 flex items-center justify-between">
+                  <div className="relative  flex items-center justify-between">
                     <div
                       onClick={() => onRoomSelect(formatRoomForSelection(room))}
                       className="flex items-center gap-3 flex-1"

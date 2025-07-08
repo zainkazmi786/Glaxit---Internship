@@ -5,6 +5,9 @@ const MessageAvatar = ({ senderId, senderName }) => {
   const [avatar, setAvatar] = useState('/default-avatar.png');
   const fetchSenderAvatar = async (id) => {
     try {
+      if(id === '64b0ee2c189286a5abc6b4ba') {
+        return '/gemini-icon-seeklogo.svg'; // Placeholder for AI avatar
+      }
       const response = await api.get(`/api/avatar/${id}`);
       console.log(response.data.avatar);
       return response.data.avatar || '/default-avatar.png';

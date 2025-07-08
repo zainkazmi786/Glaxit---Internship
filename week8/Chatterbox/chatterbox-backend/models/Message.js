@@ -11,7 +11,7 @@ const messageSchema = new mongoose.Schema({
   senderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: false
   },
   senderName: {
     type: String,
@@ -19,7 +19,7 @@ const messageSchema = new mongoose.Schema({
   },
   content: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
   status: {
@@ -29,8 +29,19 @@ const messageSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['text', 'image', 'file'],
-    default: 'text'
+    enum: ['text', 'image', 'file','video'],
+    default: 'text',
+    required: false
+  },
+  url: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  filename: {
+    type: String,
+    trim: true,
+    default: ''
   },
   deleted: {
     type: Boolean,

@@ -7,6 +7,22 @@ const { generateInviteCode } = require('../utils/helpers');
 
 const router = express.Router();
 
+const ensureAIRoom = async (userId) => {
+  let room = await Room.findOne({ isAi :true , creator: userId });
+  if (!room) {
+    room = new Room({
+      name: 'Chat with AI',
+      isPrivate: true,
+      isAi : true,
+      creator: userId,
+      admins: [userId],
+      members: [userId]
+    });
+    await room.save();
+  }
+  return room;
+};
+
 // Get public rooms
 router.get('/public', jwtAuth, async (req, res) => {
   try {
@@ -25,6 +41,7 @@ router.get('/public', jwtAuth, async (req, res) => {
 // Get user's rooms
 router.get('/my-rooms', jwtAuth, async (req, res) => {
   try {
+    await ensureAIRoom(req.user._id); 
     const rooms = await Room.find({ 
       members: req.user._id 
     })

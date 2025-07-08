@@ -16,6 +16,10 @@ const roomSchema = new mongoose.Schema({
     type: Boolean,
     default: false  // 🔥 NEW field to distinguish DMs from rooms
   },
+  isAi: {
+    type: Boolean,
+    default: false  // 🔥 NEW field to indicate AI rooms
+  },
   inviteCode: {
     type: String,
     unique: true,

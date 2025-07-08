@@ -19,6 +19,7 @@ const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const roomRoutes = require('./routes/rooms');
 const messageRoutes = require('./routes/messages');
+const uploadRoutes = require('./routes/upload');
 
 const app = express();
 const server = http.createServer(app);
@@ -68,6 +69,8 @@ app.use('/api/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/upload', uploadRoutes);
+
 
 
 app.get('/api/avatar/:userId', async (req, res) => {

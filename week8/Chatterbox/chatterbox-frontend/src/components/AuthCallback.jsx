@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Spinner from './Spinner';
 
 const AuthCallback = () => {
   const navigate = useNavigate();
@@ -24,11 +25,13 @@ const AuthCallback = () => {
   }, [searchParams, navigate, checkAuth]);
 
   return (
+
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-center">
+      <Spinner/>
+      {/* <div className="text-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
         <p className="mt-4 text-gray-600">Authenticating...</p>
-      </div>
+      </div> */}
     </div>
   );
 };

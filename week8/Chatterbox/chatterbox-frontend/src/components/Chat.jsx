@@ -67,7 +67,7 @@ const Chat = () => {
                     </svg>
                   </button>
                   <div>
-                    <h2 className="font-semibold text-slate-800 dark:text-slate-200">
+                    <h2 className="font-semibold text-slate-800 dark:text-slate-200 overflow-hidden  overflow-ellipsis w-70 md:w-full">
                       {currentRoom.name}
                     </h2>
                     {currentRoom.members && (

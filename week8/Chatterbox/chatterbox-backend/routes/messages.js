@@ -40,6 +40,9 @@ router.get('/:roomId', jwtAuth, async (req, res) => {
     // Format messages for frontend
     const formattedMessages = messages.map(message => ({
       id: message._id,
+      type: message.type || 'text', // Default to 'text' if type is not set
+      url: message.url || '', // Default to empty string if no URL
+      filename: message.filename || '', // Default to empty string if no filename
       roomId: roomId, // Return original roomId (with dm_ prefix if it was a DM)
       senderId: message.senderId,
       senderName: message.senderName,
@@ -94,6 +97,8 @@ router.delete('/:messageId', jwtAuth, async (req, res) => {
     // Mark message as deleted
     message.deleted = true;
     message.content = 'This message has been deleted';
+    message.url = ''; // Clear URL if it was an attachment
+    message.filename = ''; // Clear filename if it was an attachment
     await message.save();
 
     // Emit socket event for real-time update
