@@ -366,7 +366,7 @@ const MessageList = ({ room }) => {
               <div className={`p-4 rounded-2xl shadow-lg backdrop-blur-sm transition-all duration-200 hover:shadow-xl ${message.senderId === user?.id
                   ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white ml-auto rounded-br-md '
                   : 'bg-white/80 dark:bg-slate-700/80 text-slate-900 dark:text-slate-100 border border-slate-200/50 dark:border-slate-600/50 rounded-bl-md'
-                } ${message.deleted ? 'opacity-50 italic' : ''}`}>
+                } ${message.deleted ? 'opacity-80 italic' : ''}`}>
 
                
 
@@ -404,7 +404,7 @@ const MessageList = ({ room }) => {
                   <p className="text-sm leading-relaxed">{message.content}</p>
                 )}
                 {message.deleted && (
-                <p className="text-sm italic text-slate-100">This message has been deleted</p>
+                <p className="text-sm italic text-slate-400 dark:text-gray-100">This message has been deleted</p>
                 )}
 
                 {!message.deleted && canDeleteMessage(message) && (
