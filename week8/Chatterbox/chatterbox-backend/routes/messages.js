@@ -13,9 +13,9 @@ router.get('/:roomId', jwtAuth, async (req, res) => {
     let actualRoomId = roomId;
     
     // Handle DM room IDs that start with dm_
-    if (roomId.startsWith('dm_')) {
-      actualRoomId = roomId.replace('dm_', '');
-    }
+    // if (roomId.startsWith('dm_')) {
+    //   actualRoomId = roomId.replace('dm_', '');
+    // }
     
     // Check if user has access to this room
     const room = await Room.findById(actualRoomId);
@@ -128,9 +128,9 @@ router.get('/:roomId/history', jwtAuth, async (req, res) => {
     const { page = 1, limit = 50 } = req.query;
     
     let actualRoomId = roomId;
-    if (roomId.startsWith('dm_')) {
-      actualRoomId = roomId.replace('dm_', '');
-    }
+    // if (roomId.startsWith('dm_')) {
+    //   actualRoomId = roomId.replace('dm_', '');
+    // }
     
     // Check room access
     const room = await Room.findById(actualRoomId);

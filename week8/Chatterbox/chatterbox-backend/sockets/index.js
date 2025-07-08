@@ -234,9 +234,9 @@ module.exports = (io) => {
         io.to(roomId).emit('receiveMessage', messageData);
 
         // Only update regular room's last activity
-        if (!roomId.startsWith('dm_')) {
-          await Room.findByIdAndUpdate(roomId, { updatedAt: new Date() });
-        }
+        // if (!roomId.startsWith('dm_')) {
+        //   await Room.findByIdAndUpdate(roomId, { updatedAt: new Date() });
+        // }
 
       } catch (error) {
         console.error('Send message error:', error);

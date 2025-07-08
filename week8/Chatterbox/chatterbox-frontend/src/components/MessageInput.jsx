@@ -17,7 +17,7 @@ const MessageInput = ({ room }) => {
     e.preventDefault();
     if ((!message.trim() && !attachedFile) || !socket || !room) return;
 
-    const roomId = room.isDM ? `dm_${room.id}` : room.id;
+    const roomId = room.id;
 
     setIsUploading(true);
 
@@ -77,7 +77,7 @@ const MessageInput = ({ room }) => {
     
     if (!socket || !room) return;
 
-    const roomId = room.isDM ? `dm_${room.id}` : room.id;
+    const roomId = room.id;
 
     // Emit typing event
     socket.emit('typing', { roomId });

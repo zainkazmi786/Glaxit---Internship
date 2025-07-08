@@ -115,7 +115,7 @@ router.post('/dm/:userId', jwtAuth, async (req, res) => {
 
     // Create new DM
     room = new Room({
-      dmid: `dm_${members.join('_')}`, // Unique ID for DM room
+      // dmid: `dm_${members.join('_')}`, // Unique ID for DM room
       name: `DM: ${members.join('_')}`,
       isPrivate: true,
       isDM: true,

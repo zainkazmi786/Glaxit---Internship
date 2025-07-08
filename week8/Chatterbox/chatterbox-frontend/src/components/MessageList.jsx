@@ -148,7 +148,7 @@ const MessageList = ({ room }) => {
 
   const joinRoom = () => {
     if (socket && room) {
-      const roomId = room.isDM ? `dm_${room.id}` : room.id;
+      const roomId = room.id;
 
       socket.emit('joinRoom', { roomId });
       
@@ -156,21 +156,21 @@ const MessageList = ({ room }) => {
   };
 
   const handleNewMessage = (message) => {
-    const roomId = room.isDM? `dm_${room.id}` : room.id;
+    const roomId =  room.id;
     if (message.roomId === roomId) {
       setMessages(prev => [...prev, message]);
     }
   };
 
   const handleTyping = (data) => {
-    const roomId = room.type === 'dm' ? `dm_${room.id}` : room.id;
+    const roomId = room.id;
     if (data.roomId === roomId && data.userId !== user?.id) {
       setTypingUsers(prev => new Set(prev).add(data.userName));
     }
   };
 
   const handleStopTyping = (data) => {
-    const roomId = room.type === 'dm' ? `dm_${room.id}` : room.id;
+    const roomId = room.id;
     if (data.roomId === roomId) {
       setTypingUsers(prev => {
         const newSet = new Set(prev);

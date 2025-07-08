@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
+  customId: { type: String, unique: true, sparse: true }, // optional custom string ID
+
   name: {
     type: String,
     required: true,
