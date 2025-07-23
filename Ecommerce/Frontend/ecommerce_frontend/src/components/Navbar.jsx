@@ -12,9 +12,7 @@ const Navbar = () => {
   const [categories, setcategories] = useState([]);
   const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Shop', href: '/shop' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Elements', href: '/elements' }
+  { label: 'Shop', href: '/shop' }
 ];
 
   useEffect(() => {
@@ -30,7 +28,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch('http://localhost:3000/api/categories');
         const data = await response.json();
         setcategories((data));
       } catch (error) {
@@ -42,22 +40,18 @@ const Navbar = () => {
 
   return (
     <div className="border-b shadow-sm">
-      {/* Top Bar */}
-      <div className="bg-blue-600 text-white text-sm py-1 px-4 md:px-16 flex justify-between items-center">
-        <div className="flex flex-wrap gap-4">
-          <span>📧 support@pressmart.com</span>
-          <span>📞 +(023) 4567 890</span>
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <span>Welcome to Our Store!</span>
-          <span>English ▾</span>
-          <span>$ Dollar (US) ▾</span>
-        </div>
-      </div>
+
 
       {/* Navbar Main */}
       <div className="flex items-center justify-between px-4 md:px-16 py-3 bg-white relative">
-        <h1 className="text-2xl font-bold">PressMart.</h1>
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+
+        <Link to="/" className="text-xl font-bold text-indigo-600 ">
+          <img src="https://glaxit.com/wp-content/uploads/2024/11/Glaxit-Logo.png" alt="Logo" className="w-30" />
+        </Link>        
+        {/* <h1 className="text-2xl font-bold">Glaxit Super Store.</h1> */}
+        </div>
 
         {/* Mobile Hamburger */}
         <button
@@ -69,19 +63,19 @@ const Navbar = () => {
 
         {/* Links */}
         <ul
-          className={`md:flex gap-6 items-center text-sm ${
+          className={`md:flex gap-6 items-center text-sm text-indigo-600 font-semibold ${
             showMobileMenu ? 'block' : 'hidden'
           } md:block absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow md:shadow-none z-20`}
         >
           {navLinks.map((link) => (
-            <li key={link.label} className="py-2 md:py-0 hover:text-blue-600 cursor-pointer">
+            <li key={link.label} className="py-2 md:py-0 hover:text-indigo-800 cursor-pointer">
               <Link to={link.href}>{link.label}</Link>
             </li>
           ))}
 
           {/* Pages Dropdown */}
           <li
-            className="relative group dropdown-container"
+            className="relative group dropdown-container  hover:text-indigo-800"
             onMouseEnter={() =>
               openDropdown !== 'pages' && setOpenDropdown('pages')
             }
@@ -94,12 +88,12 @@ const Navbar = () => {
                 e.stopPropagation();
                 setOpenDropdown(openDropdown === 'pages' ? null : 'pages');
               }}
-              className="py-2 px-2 hover:text-blue-600 cursor-pointer flex items-center gap-1"
+              className="py-2 px-2 hover:text-indigo-900 cursor-pointer flex items-center gap-1"
             >
-              Pages <span className="text-xs">▼</span>
+              Categories <span className="text-xs">▼</span>
             </div>
             <ul
-              className={`absolute left-0 mt-2 bg-white border shadow-md rounded-md min-w-[150px] z-30 transition-all duration-300 origin-top-left 
+              className={`absolute left-20  mt-2 bg-white text-black border shadow-md min-w-[150px] z-30 transition-all duration-300 origin-top-left 
               ${
                 openDropdown === 'pages'
                   ? 'opacity-100 scale-100 pointer-events-auto'
@@ -107,10 +101,10 @@ const Navbar = () => {
               }`}
             >{categories.map((category) => (
                   <Link
-                    key={category._id.$oid}
-                    to={`/shop?category_id=${category._id.$oid}`}
+                    key={category._id}
+                    to={`/shop?category_id=${category._id}`}
                   >
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <li onClick={()=>setOpenDropdown(null)} className="px-4 py-2 hover:bg-indigo-400 cursor-pointer">
                       {category.name}
                     </li>
                   </Link>
@@ -120,46 +114,6 @@ const Navbar = () => {
             </ul>
           </li>
 
-          {/* Buy Dropdown */}
-          <li
-            className="relative group dropdown-container"
-            onMouseEnter={() =>
-              openDropdown !== 'buy' && setOpenDropdown('buy')
-            }
-            onMouseLeave={() =>
-              openDropdown !== 'buy' && setOpenDropdown(null)
-            }
-          >
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setOpenDropdown(openDropdown === 'buy' ? null : 'buy');
-              }}
-              className="py-2 px-2 hover:text-blue-600 cursor-pointer flex items-center gap-1"
-            >
-              Buy <span className="text-xs">▼</span>
-            </div>
-            <ul
-              className={`absolute left-0 mt-2 bg-white border shadow-md rounded-md min-w-[150px] z-30 transition-all duration-300 origin-top-left 
-              ${
-                openDropdown === 'buy'
-                  ? 'opacity-100 scale-100 pointer-events-auto'
-                  : 'opacity-0 scale-95 pointer-events-none'
-              }`}
-            >
-              {categories.map((category) => (
-                <Link
-                  key={category._id.$oid}
-                  to={`/shop?category_id=${category._id.$oid}`}
-                >
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    {category.name}
-                  </li>
-                </Link>
-              ))}
-
-            </ul>
-          </li>
         </ul>
         
         {/* Cart */}
@@ -173,8 +127,8 @@ const Navbar = () => {
             setShowCart(!showCart);
           }}
           >
-          <FaShoppingCart size={22} />
-          <span className="absolute -top-2 -right-2 bg-blue-600 text-white rounded-full text-xs px-1">
+          <img src="/cart.png" alt="" className='h-7'  />
+          <span className="absolute -top-2 -right-2 bg-indigo-600 text-white rounded-full text-xs px-1">
             {localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')).length : 0}
           </span>
 

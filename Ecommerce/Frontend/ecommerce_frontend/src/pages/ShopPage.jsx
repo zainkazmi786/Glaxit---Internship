@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import HeroBanner from '../components/HeroBanner';
 
 import ProductCard from '../components/ProductCard';
 
@@ -10,8 +11,8 @@ const ShopPage = () => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [categoryname, setcategoryname] = useState('all');
-
-const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Helper to get query params
   const useQuery = () => {
@@ -20,7 +21,7 @@ const location = useLocation();
 
   const getCategoryName = async (category) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/categories/${category}`);
+      const response = await fetch(`http://localhost:3000/api/categories/${category}`);
       if (!response.ok) throw new Error('Category not found');
       const data = await response.json();
       return data.name;
@@ -37,6 +38,9 @@ const location = useLocation();
         const categoryname = await getCategoryName(category_id);
         setcategoryname(categoryname);
       }
+      else {
+        setcategoryname('all');
+      }
     };
   
     fetchCategory();
@@ -51,7 +55,7 @@ const location = useLocation();
         const category_id = query.get('category_id');
 
         // Build API URL with category query param if exists
-        let apiUrl = 'http://localhost:5000/api/products';
+        let apiUrl = 'http://localhost:3000/api/products';
         if (category_id) {
           apiUrl += `?category_id=${category_id}`;  // Note: backend expects 'category_id' param
         }
@@ -61,6 +65,7 @@ const location = useLocation();
 
         const data = await response.json();
         setProducts(data);
+        console.log('Fetched products on shop:', data);
         
         setLoading(false);
       } catch (error) {
@@ -103,9 +108,11 @@ const location = useLocation();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 sm:py-16"> {/* Softer background, consistent padding */}
+
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8"> {/* Responsive padding */}
         <header className="text-center mb-10 md:mb-12"> {/* Increased bottom margin for better separation */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
+          <h1 className="text-3xl sm:text-4xl font-bold text-indigo-700">
             {categoryname === "all" ? "Shop All Products" : `Shop ${categoryname}`}
           </h1>
           {/* Optional: Add a subtitle or breadcrumbs here for better navigation */}
@@ -114,9 +121,9 @@ const location = useLocation();
 
         {/* Products Grid */}
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8 sm:gap-y-10 lg:gap-x-8"> {/* Adjusted gap for better spacing, removed px-16 from here as container handles padding */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-30 gap-y-8 sm:gap-y-10 lg:gap-x-30"> {/* Adjusted gap for better spacing, removed px-16 from here as container handles padding */}
             {products.map(product => (
-              <div key={product.id} className="group flex flex-col"> {/* Added flex flex-col to ensure consistent height if ProductCard internals vary */}
+              <div key={product._id} className="group flex flex-col"> {/* Added flex flex-col to ensure consistent height if ProductCard internals vary */}
                 <ProductCard product={product} />
               </div>
             ))}
@@ -134,7 +141,7 @@ const location = useLocation();
             </p>
             {/* Optional: Add a button to go back or to all products */}
           <button
-              onClick={() => { /* Navigate to all products or homepage */ }}
+              onClick={() => navigate('/shop')} 
               className="mt-6 px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
             >
               Shop All Products

@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">PressMart</h3>
+            <h3 className="text-xl font-semibold text-white mb-4">Glaxit</h3>
             <p className="mb-4 text-gray-400">
               Your premium shopping destination for quality products and excellent service.
             </p>
@@ -46,13 +46,13 @@ const Footer = () => {
                 <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Shop</Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link>
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors">About Us</Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link>
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors">Contact</Link>
               </li>
               <li>
-                <Link to="/faq" className="text-gray-400 hover:text-white transition-colors">FAQs</Link>
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors">FAQs</Link>
               </li>
             </ul>
           </div>
@@ -65,13 +65,13 @@ const Footer = () => {
                 <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">All Products</Link>
               </li>
               <li>
-                <Link to="/shop?category_id" className="text-gray-400 hover:text-white transition-colors">Backpacks</Link>
+                <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Backpacks</Link>
               </li>
               <li>
-                <Link to="/shop?category=accessories" className="text-gray-400 hover:text-white transition-colors">Accessories</Link>
+                <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Accessories</Link>
               </li>
               <li>
-                <Link to="/shop?category=electronics" className="text-gray-400 hover:text-white transition-colors">Laptops</Link>
+                <Link to="/shop" className="text-gray-400 hover:text-white transition-colors">Laptops</Link>
               </li>
              
             </ul>
@@ -102,7 +102,7 @@ const Footer = () => {
       <div className="border-t border-gray-800 px-6 py-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} ShopWave. All rights reserved.
+            © {new Date().getFullYear()} Glaxit. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
             <ul className="flex space-x-8">

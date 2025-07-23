@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
 
 const getCategoryName = async (category) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/categories/${category}`);
+    const response = await fetch(`http://localhost:3000/api/categories/${category}`);
     if (!response.ok) throw new Error('Category not found');
     const data = await response.json();
     return data.name;
@@ -28,7 +28,7 @@ const getCategoryName = async (category) => {
 useEffect(() => {
   const fetchCategory = async () => {
     if (product && product.category_id) {
-      const categoryName = await getCategoryName(product.category_id.$oid);
+      const categoryName = await getCategoryName(product.category_id);
       setcategory(categoryName);
     }
   };
@@ -41,7 +41,7 @@ useEffect(() => {
     try {
       setLoading(true);
       // Fetch only the specific product by ID
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const response = await fetch(`http://localhost:3000/api/products/${productId}`);
       if (!response.ok) {
         throw new Error('Product not found');
       }
@@ -110,7 +110,7 @@ useEffect(() => {
             </li>
             <li className="mx-2">/</li>
             <li className="hover:text-blue-600">
-              <Link to={`/shop?category=${product.category_id.$oid}`}>{category}</Link>
+              <Link to={`/shop?category=${product.category_id}`}>{category}</Link>
             </li>
             <li className="mx-2">/</li>
             <li className="text-gray-900">{product.title}</li>
@@ -210,7 +210,7 @@ useEffect(() => {
             <div className="border-t pt-6">
               <div className="mb-4">
                 <span className="text-sm text-gray-500">Category: </span>
-                <Link to={`/shop?category_id=${product.category_id.$oid}`} className="text-sm text-blue-600 hover:underline">
+                <Link to={`/shop?category_id=${product.category_id}`} className="text-sm text-blue-600 hover:underline">
                   {category}
                 </Link>
               </div>

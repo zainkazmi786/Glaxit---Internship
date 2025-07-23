@@ -3,7 +3,7 @@ import React from 'react';
 import { CartProvider } from './context/cartcontext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar'; // adjust path as needed
-import HomePage from './pages/Homepage';
+import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import CartPage from './pages/CartPage';
 import ProductDetailPage from './pages/ProductDetailPage';

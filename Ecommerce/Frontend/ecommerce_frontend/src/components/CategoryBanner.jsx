@@ -19,7 +19,7 @@ const CategoryBanner = ({ categories }) => {
                 <h3 className="text-white text-2xl font-bold mb-1">{category.name}</h3>
                 <p className="text-white mb-4">{category.discount}</p>
                 <Link 
-                  to={`/shop/${category.name.toLowerCase().replace(/\s+/g, '-')}`} 
+                  to={`/shop`} 
                   className="flex items-center text-white hover:underline"
                 >
                   Shop Now <span className="ml-2">→</span>

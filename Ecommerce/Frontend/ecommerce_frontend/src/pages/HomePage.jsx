@@ -14,10 +14,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchproducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products');
+        const response = await fetch('http://localhost:3000/api/products');
         const data = await response.json();
         setfeaturedproducts(data);
-        console.log(data);
+        console.log("Heaturesd Products  " , data);
       } catch (error) {
         console.error('Error fetching Products:', error);
       }

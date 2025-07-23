@@ -14,7 +14,7 @@ const Cart = () => {
 
       const ids = cartItems.map(item => item.product_id);
       try {
-        const res = await fetch(`${"http://127.0.0.1:5000"}/api/products/bulk`, {
+        const res = await fetch(`${"http://127.0.0.1:3000"}/api/products/bulk`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ids })
@@ -23,7 +23,7 @@ const Cart = () => {
         console.log("Fetched product details:", data);
         // Map products by id for easy access
         const productMap = {};
-        data.forEach(p => (productMap[p._id.$oid] = p));
+        data.forEach(p => (productMap[p._id] = p));
         setProducts(productMap);
         console.log("Fetched products:", productMap);
       } catch (err) {

@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-indigo-600 to-indigo-500 text-white py-3 px-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
           <button 
-            onClick={()=>addToCart(product._id.$oid)} 
+            onClick={()=>addToCart(product._id)} 
             className="w-full bg-white text-indigo-600 font-medium py-2 rounded hover:bg-gray-100 transition flex items-center justify-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,7 +32,7 @@ const ProductCard = ({ product }) => {
       </div>
       <div className="p-4">
         <div className="text-xs text-indigo-600 font-medium mb-1">{product.brand}</div>
-        <Link to={`/product/${product._id.$oid}`} className="block">
+        <Link to={`/product/${product._id}`} className="block">
           <h3 className="font-medium text-gray-800 hover:text-indigo-600 transition mb-2 line-clamp-2 h-12">
             {product.title}
           </h3>

@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 
 const getCategoryName = async (category) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/categories/${category}`);
+    const response = await fetch(`http://localhost:3000/api/categories/${category}`);
     if (!response.ok) throw new Error('Category not found');
     const data = await response.json();
     return data.name;
@@ -20,7 +20,7 @@ const ProductGrid = ({ products, title }) => {
   // Fetch all category names for product category IDs
   useEffect(() => {
     const fetchCategories = async () => {
-      const uniqueCategoryIds = [...new Set(products.map(p => p.category_id.$oid))];
+      const uniqueCategoryIds = [...new Set(products.map(p => p.category_id))];
       const entries = await Promise.all(
         uniqueCategoryIds.map(async id => [id, await getCategoryName(id)])
       );
@@ -38,7 +38,7 @@ const ProductGrid = ({ products, title }) => {
   const filteredProducts =
     activeTab === 'all'
       ? products
-      : products.filter(p => getCategory(p.category_id.$oid) === activeTab);
+      : products.filter(p => getCategory(p.category_id) === activeTab);
   console.log('Filtered Products:', filteredProducts);
 
  return (
@@ -67,9 +67,9 @@ const ProductGrid = ({ products, title }) => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-30 md:mx-20 mx-10">
           {filteredProducts.map(product => (
-            <ProductCard key={product._id.$oid} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>

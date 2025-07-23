@@ -23,18 +23,25 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product_id, quantity = 1) => {
     setCartItems(prev => {
       const exists = prev.find(item => item.product_id === product_id);
+      let updatedCart;
+
       if (exists) {
-        return prev.map(item =>
+        updatedCart = prev.map(item =>
           item.product_id === product_id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
+      } else {
+        updatedCart = [...prev, { product_id, quantity }];
       }
+
+      // Show toast message for both cases
       toast.success('Product added to cart!');
 
-      return [...prev, { product_id, quantity }];
+      return updatedCart;
     });
   };
+
   const UpdateQuantity = (product_id, quantity) => {
     setCartItems(prev => {
       const exists = prev.find(item => item.product_id === product_id);
