@@ -5,6 +5,8 @@ import HeroBanner from '../components/HeroBanner';
 
 import ProductCard from '../components/ProductCard';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ const ShopPage = () => {
 
   const getCategoryName = async (category) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/categories/${category}`);
+      const response = await fetch(`${API_URL}/categories/${category}`);
       if (!response.ok) throw new Error('Category not found');
       const data = await response.json();
       return data.name;
@@ -55,7 +57,7 @@ const ShopPage = () => {
         const category_id = query.get('category_id');
 
         // Build API URL with category query param if exists
-        let apiUrl = 'http://localhost:3000/api/products';
+        let apiUrl = `${API_URL}/products`;
         if (category_id) {
           apiUrl += `?category_id=${category_id}`;  // Note: backend expects 'category_id' param
         }

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Set this in .env
 
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'; // Default to local if not set
+
 router.post('/create-checkout-session', async (req, res) => {
   const { orderId, orderItems, total } = req.body;
 
@@ -19,8 +21,8 @@ router.post('/create-checkout-session', async (req, res) => {
         quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `http://localhost:5173/checkout/${orderId}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5173/cart`,
+      success_url: `${CLIENT_URL}/checkout/${orderId}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${CLIENT_URL}/cart`,
       metadata: {
         orderId
       }

@@ -6,6 +6,8 @@ import PromotionGrid from '../components/PromotionGrid';
 import ProductGrid from '../components/ProductGrid';
 import CategoryBanner from '../components/CategoryBanner';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Import data
 import productData from '../data/products.json';
 
@@ -14,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchproducts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch(`${API_URL}/products`);
         const data = await response.json();
         setfeaturedproducts(data);
         console.log("Heaturesd Products  " , data);

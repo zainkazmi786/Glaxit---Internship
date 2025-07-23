@@ -3,7 +3,8 @@ import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import Cart from './Cart';
 import { Link } from 'react-router-dom';
 
-// import { list } from 'postcss/lib/list';
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -28,7 +29,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/categories');
+        const response = await fetch(`${API_URL}/categories`);
         const data = await response.json();
         setcategories((data));
       } catch (error) {

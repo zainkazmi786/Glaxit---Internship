@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-
+const API_URL = import.meta.env.VITE_API_URL;
 const getCategoryName = async (category) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/categories/${category}`);
+    const response = await fetch(`${API_URL}/categories/${category}`);
     if (!response.ok) throw new Error('Category not found');
     const data = await response.json();
     return data.name;

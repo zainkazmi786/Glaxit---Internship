@@ -2,7 +2,7 @@ import { useCart } from "../context/cartcontext";
 import { useEffect, useState } from "react";
 import { TrashIcon } from '@heroicons/react/24/outline';
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Cart = () => {
   const { cartItems, removeFromCart } = useCart();
   const [products, setProducts] = useState({});
@@ -14,7 +14,7 @@ const Cart = () => {
 
       const ids = cartItems.map(item => item.product_id);
       try {
-        const res = await fetch(`${"http://127.0.0.1:3000"}/api/products/bulk`, {
+        const res = await fetch(`${API_URL}/products/bulk`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ids })

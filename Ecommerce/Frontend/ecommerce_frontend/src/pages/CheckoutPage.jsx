@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CheckoutPage = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ const CheckoutPage = () => {
 
   // Update customer info
   const updateCustomerInfo = async () => {
-    const res = await fetch(`http://localhost:3000/api/orders/${orderId}/customer-info`, {
+    const res = await fetch(`${API_URL}/orders/${orderId}/customer-info`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: name.trim(), phone: phone.trim(), address: address.trim() }),
@@ -88,7 +90,7 @@ const CheckoutPage = () => {
       await updateCustomerInfo();
 
       // Update order status
-      const statusRes = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+      const statusRes = await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'confirmed' }),
@@ -97,7 +99,7 @@ const CheckoutPage = () => {
       if (!statusRes.ok) throw new Error(statusData.error || 'Failed to update order status');
 
       // Update payment method
-      const methodRes = await fetch(`http://localhost:3000/api/orders/${orderId}/method`, {
+      const methodRes = await fetch(`${API_URL}/orders/${orderId}/method`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -136,7 +138,7 @@ const CheckoutPage = () => {
       
       setLoadingOrder(true);
       try {
-        const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+        const res = await fetch(`${API_URL}/orders/${orderId}`);
         if (!res.ok) {
           const errData = await res.json();
           throw new Error(errData.error || 'Failed to fetch order');
@@ -169,7 +171,7 @@ const CheckoutPage = () => {
   // Update payment status function
   const updatePaymentStatus = async (status, sessionId = null) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/orders/${orderId}/payment-status`, {
+      const res = await fetch(`${API_URL}/orders/${orderId}/payment-status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -210,7 +212,7 @@ const CheckoutPage = () => {
           setPaymentLoading(true);
           
           // 1. First verify the payment with Stripe
-          const res = await fetch(`http://localhost:3000/api/payments/session-status/${sessionId}`);
+          const res = await fetch(`${API_URL}/payments/session-status/${sessionId}`);
           const data = await res.json();
           
           console.log('Session status:', data);
@@ -270,7 +272,7 @@ const CheckoutPage = () => {
       await updatePaymentStatus("pending");
 
       // Create checkout session
-      const res = await fetch("http://localhost:3000/api/payments/create-checkout-session", {
+      const res = await fetch(`${API_URL}/payments/create-checkout-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

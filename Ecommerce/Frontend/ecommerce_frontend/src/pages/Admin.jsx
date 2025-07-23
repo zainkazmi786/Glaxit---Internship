@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Main Admin Dashboard Component
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("products");
@@ -74,8 +76,8 @@ function ProductsManager() {
   useEffect(() => {
     // Fetch products and categories on component mount
     Promise.all([
-      fetch("http://localhost:3000/api/products").then(res => res.json()),
-      fetch("http://localhost:3000/api/categories").then(res => res.json())
+      fetch(`${API_URL}/products`).then(res => res.json()),
+      fetch(`${API_URL}/categories`).then(res => res.json())
     ])
       .then(([productsData, categoriesData]) => {
         setProducts(productsData);
@@ -120,8 +122,8 @@ function ProductsManager() {
 
     try {
       const url = isEditing && selectedProduct
-        ? `http://localhost:3000/api/products/${selectedProduct._id}`
-        : "http://localhost:3000/api/products/";
+        ? `${API_URL}/products/${selectedProduct._id}`
+        : `${API_URL}/products/`;
 
       const method = isEditing && selectedProduct ? "PUT" : "POST";
 
@@ -132,7 +134,7 @@ function ProductsManager() {
 
       if (response.ok) {
         const result = await response.json();
-        const updatedList = await fetch("http://localhost:3000/api/products").then(res => res.json());
+        const updatedList = await fetch(`${API_URL}/products`).then(res => res.json());
         setProducts(updatedList);
         setIsAdding(false);
         setIsEditing(false);
@@ -161,7 +163,7 @@ function ProductsManager() {
   const handleDelete = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        const response = await fetch(`http://localhost:3000/api/products/${productId}`, {
+        const response = await fetch(`${API_URL}/products/${productId}`, {
           method: "DELETE"
         });
 
@@ -431,7 +433,7 @@ function CategoriesManager() {
 
   useEffect(() => {
     // Fetch categories on component mount
-    fetch("http://localhost:3000/api/categories")
+    fetch(`${API_URL}/categories`)
       .then(res => res.json())
       .then(data => {
         setCategories(data);
@@ -461,7 +463,7 @@ function CategoriesManager() {
     try {
       if (isEditing && selectedCategory) {
         // Update existing category
-        const response = await fetch(`http://localhost:3000/api/categories/${selectedCategory._id}`, {
+        const response = await fetch(`${API_URL}/categories/${selectedCategory._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -476,7 +478,7 @@ function CategoriesManager() {
         }
       } else {
         // Create new category
-        const response = await fetch("http://localhost:3000/api/categories/", {
+        const response = await fetch(`${API_URL}/categories/`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
@@ -485,7 +487,7 @@ function CategoriesManager() {
         if (response.ok) {
           const result = await response.json();
           // Refresh categories list
-          fetch("http://localhost:3000/api/categories")
+          fetch(`${API_URL}/categories`)
             .then(res => res.json())
             .then(data => setCategories(data));
           setIsAdding(false);
@@ -512,7 +514,7 @@ function CategoriesManager() {
   const handleDelete = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        const response = await fetch(`http://localhost:3000/api/categories/${categoryId}`, {
+        const response = await fetch(`${API_URL}/categories/${categoryId}`, {
           method: "DELETE"
         });
 
@@ -668,7 +670,7 @@ function OrdersManager() {
 
   useEffect(() => {
     // Fetch orders on component mount
-    fetch("http://localhost:3000/api/orders")
+    fetch(`${API_URL}/orders`)
       .then(res => res.json())
       .then(data => {
         setOrders(data);
@@ -682,7 +684,7 @@ function OrdersManager() {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+      const response = await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const CheckoutForm = ({ cart }) => {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const CheckoutForm = ({ cart }) => {
         items: cart,
       };
 
-      const response = await fetch('http://localhost:3000/api/orders', {
+      const response = await fetch(`${API_URL}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

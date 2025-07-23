@@ -4,7 +4,7 @@ import { useCart } from '../context/cartcontext';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { StarIcon as StarOutlineIcon } from '@heroicons/react/24/outline';
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
 
 const getCategoryName = async (category) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/categories/${category}`);
+    const response = await fetch(`${API_URL}/categories/${category}`);
     if (!response.ok) throw new Error('Category not found');
     const data = await response.json();
     return data.name;
@@ -41,7 +41,7 @@ useEffect(() => {
     try {
       setLoading(true);
       // Fetch only the specific product by ID
-      const response = await fetch(`http://localhost:3000/api/products/${productId}`);
+      const response = await fetch(`${API_URL}/products/${productId}`);
       if (!response.ok) {
         throw new Error('Product not found');
       }
