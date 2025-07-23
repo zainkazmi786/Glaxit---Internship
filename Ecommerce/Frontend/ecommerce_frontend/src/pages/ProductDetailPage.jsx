@@ -37,6 +37,7 @@ useEffect(() => {
 }, [product]);
 
 useEffect(() => {
+  scrollTo(0, 0);
   const fetchProduct = async () => {
     try {
       setLoading(true);
