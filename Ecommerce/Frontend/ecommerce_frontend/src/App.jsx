@@ -20,6 +20,7 @@ const App = () => {
     <CartProvider>
       <Router>
         <Navbar />
+        <div className='h-14' ></div>
         <Routes>
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminAuth />} />

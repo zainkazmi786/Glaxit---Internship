@@ -6,16 +6,29 @@ import { Link } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL;
 
 
+
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [categories, setcategories] = useState([]);
+  const [cartitems, setcartitems] = useState(0);
   const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Shop', href: '/shop' }
-];
-
+    { label: 'Home', href: '/' },
+    { label: 'Shop', href: '/shop' }
+  ];
+  
+  useEffect(() => {
+    const updateCartItems = () => {
+      setcartitems(JSON.parse(localStorage.getItem('cart'))?.length || 0);
+    };
+    // Run once on mount
+    updateCartItems();
+    // Listen to cart updates
+    window.addEventListener('cartUpdated', updateCartItems);
+    // Cleanup
+    return () => window.removeEventListener('cartUpdated', updateCartItems);
+  }, []);
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!e.target.closest('.dropdown-container')) {
@@ -40,7 +53,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="border-b shadow-sm">
+    <div className="border-b shadow-sm fixed top-0 left-0 right-0 z-50 bg-white">
 
 
       {/* Navbar Main */}
@@ -130,7 +143,7 @@ const Navbar = () => {
           >
           <img src="/cart.png" alt="" className='h-7'  />
           <span className="absolute -top-2 -right-2 bg-indigo-600 text-white rounded-full text-xs px-1">
-            {localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')).length : 0}
+            {cartitems > 0 ? cartitems : ''}
           </span>
 
           {/* Cart Dropdown */}
