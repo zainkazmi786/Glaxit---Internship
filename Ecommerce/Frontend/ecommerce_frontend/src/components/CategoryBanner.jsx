@@ -8,7 +8,7 @@ const CategoryBanner = ({ categories }) => {
     <div className="py-10 mb-10 px-16 bg-gradient-to-br from-indigo-50 via-blue-50 to-indigo-100">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-8 text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text animate-pulse">
-          Featured Categories
+          Top Categories
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
