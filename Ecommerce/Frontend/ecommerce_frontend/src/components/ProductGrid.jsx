@@ -41,10 +41,12 @@ const ProductGrid = ({ products, title }) => {
       : products.filter(p => getCategory(p.category_id) === activeTab);
   console.log('Filtered Products:', filteredProducts);
 
- return (
+  return (
     <div className="bg-gray-50 py-16">
       <div className="container mx-auto px-4 md:px-8">
-        <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">{title}</h2>
+        <h2 className="text-4xl font-bold text-center mb-8 text-transparent bg-gradient-to-r from-black via-indigo-700 to-indigo-200 bg-clip-text animate-pulse">
+          {title}
+        </h2>
         <div className="w-24 h-1 bg-indigo-600 mx-auto mb-10"></div>
 
         {/* Category Tabs */}
@@ -53,11 +55,10 @@ const ProductGrid = ({ products, title }) => {
             {categories.map((category, index) => (
               <button
                 key={index}
-                className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                  activeTab === category
+                className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-300 ${activeTab === category
                     ? 'bg-indigo-600 text-white shadow-md'
                     : 'bg-white text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 border border-gray-200'
-                }`}
+                  }`}
                 onClick={() => setActiveTab(category)}
               >
                 {category === 'all' ? 'All Products' : category}

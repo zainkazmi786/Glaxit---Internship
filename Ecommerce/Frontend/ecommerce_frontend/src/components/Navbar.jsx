@@ -77,7 +77,7 @@ const Navbar = () => {
 
         {/* Links */}
         <ul
-          className={`md:flex gap-6 items-center text-sm text-indigo-600 font-semibold ${
+          className={`md:flex gap-6 items-center text-sm text-black font-semibold ${
             showMobileMenu ? 'block' : 'hidden'
           } md:block absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow md:shadow-none z-20`}
         >

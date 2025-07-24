@@ -114,7 +114,8 @@ const ShopPage = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8"> {/* Responsive padding */}
         <header className="text-center mb-10 md:mb-12"> {/* Increased bottom margin for better separation */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-indigo-700">
+          <h1 className="text-4xl font-bold text-center mb-8 text-transparent bg-gradient-to-r from-black via-indigo-700 to-indigo-200 bg-clip-text animate-pulse">
+          
             {categoryname === "all" ? "Shop All Products" : `Shop ${categoryname}`}
           </h1>
           {/* Optional: Add a subtitle or breadcrumbs here for better navigation */}
