@@ -64,7 +64,7 @@ const CheckoutForm = ({ cart }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded shadow">
+    <div className="max-w-md mx-auto p-4  rounded shadow">
       <h2 className="text-xl font-semibold mb-4">Checkout</h2>
 
       {orderCreated ? (
@@ -89,7 +89,7 @@ const CheckoutForm = ({ cart }) => {
             id="email"
             value={customerEmail}
             onChange={(e) => setCustomerEmail(e.target.value)}
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-2  rounded mb-4"
             placeholder="you@example.com"
             disabled={loading}
           />

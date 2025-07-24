@@ -9,7 +9,7 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchDetails = async () => {
-      console.log("cartitems  : " , cartItems)
+      console.log("cartitems  : ", cartItems)
       if (cartItems.length === 0) return;
 
       const ids = cartItems.map(item => item.product_id);
@@ -41,53 +41,63 @@ const Cart = () => {
 
   return (
     <div className="w-80 bg-white shadow-lg rounded-md p-4 max-h-96 overflow-y-auto">
-  <h3 className="text-lg font-semibold mb-4 border-b pb-2">Shopping Cart</h3>
+      <h3 className="text-lg font-semibold mb-4 border-b pb-2">Shopping Cart</h3>
 
-  {cartItems.length === 0 ? (
-    <p className="text-center text-gray-500 py-10">Your cart is empty.</p>
-  ) : (
-    <ul className="space-y-4">
-      {cartItems.map(item => {
-        const product = products[item.product_id];
-        if (!product) return null;
+      {cartItems.length === 0 ? (
+        <p className="text-center text-gray-500 py-10">Your cart is empty.</p>
+      ) : (
+        <ul className="space-y-4">
+          {cartItems.map(item => {
+            const product = products[item.product_id];
+            if (!product) return null;
 
-        return (
-          <li
-            key={item.product_id}
-            className="flex items-center justify-between gap-3 border-b border-gray-200 pb-3"
-          >
-            <img
-              src={product.image}
-              alt={product.title}
-              className="w-14 h-14 object-contain rounded-md bg-gray-50 p-1"
-            />
+            return (
+              <li
+                key={item.product_id}
+                className="flex items-center justify-between gap-3 border-b border-gray-200 pb-3"
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-14 h-14 object-contain rounded-md bg-gray-50 p-1"
+                />
 
-            <div className="flex-1 ml-3 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{product.title}</p>
-              <p className="text-xs text-gray-500 mt-0.5">Qty: {item.quantity}</p>
-              <p className="text-sm text-indigo-600 font-semibold mt-1">${product.price.toFixed(2)}</p>
-            </div>
+                <div className="flex-1 ml-3 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{product.title}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Qty: {item.quantity}</p>
+                  <p className="text-sm text-indigo-600 font-semibold mt-1">${product.price.toFixed(2)}</p>
+                </div>
 
-            <button
-              onClick={() => removeFromCart(item.product_id, 1)}
-              aria-label={`Remove ${product.title} from cart`}
-              className="text-gray-400 hover:text-red-600 transition p-1 rounded"
-              title="Remove item"
-            >
-              <TrashIcon className="h-5 w-5" />
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  )}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // This actually stops the navigation event
+                    removeFromCart(item.product_id, 1);
+                  }}
+                  aria-label={`Remove ${product.title} from cart`}
+                  className="text-gray-400 hover:text-red-600 transition p-1 rounded"
+                  title="Remove item"
+                >
+                  <TrashIcon className="h-5 w-5" />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
-  <div className="mt-6 border-t pt-4 text-right">
-    <span className="text-base font-semibold text-gray-900">
-      Total: ${total.toFixed(2)}
-    </span>
-  </div>
-</div>
+      <div className="mt-6 border-t pt-4 text-right">
+        <span className="text-base font-semibold text-gray-900">
+          Total: ${total.toFixed(2)}
+        </span>
+        <button
+          className="mt-4 w-full px-3 py-2 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+        >
+          Proceed to Checkout
+        </button>
+
+      </div>
+    </div>
 
   );
 };

@@ -53,7 +53,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="border-b shadow-sm fixed top-0 left-0 right-0 z-50 bg-white">
+    <div className="shadow-sm fixed top-0 left-0 right-0 z-50 bg-white">
 
 
       {/* Navbar Main */}
@@ -62,9 +62,9 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
 
         <Link to="/" className="text-xl font-bold text-indigo-600 ">
-          <img src="https://glaxit.com/wp-content/uploads/2024/11/Glaxit-Logo.png" alt="Logo" className="w-30" />
+          <img src="https://rest.techbehemoths.com/storage/images/users/main/index-elevation-62ee2d2b64583-x2.png" alt="Logo" className="w-10" />
         </Link>        
-        {/* <h1 className="text-2xl font-bold">Glaxit Super Store.</h1> */}
+        <h1 className="text-2xl font-bold">GlaxIT Commerce</h1>
         </div>
 
         {/* Mobile Hamburger */}
